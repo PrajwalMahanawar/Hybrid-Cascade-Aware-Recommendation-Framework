@@ -108,7 +108,6 @@ Hybrid-Cascade-Aware-Recommendation-Framework/
 ├── src/
 ├── data/
 ├── outputs/
-├── notebooks/
 ├── requirements.txt
 ├── README.md
 └── LICENSE
