@@ -1,0 +1,7 @@
+Model,Hit Rate,Precision@3,Recall@3
+Baseline,0.4818,0.2697,0.0201
+ICM,0.4909,0.2394,0.0192
+LTM,0.3364,0.1212,0.0076
+Hawkes,0.4727,0.2121,0.0174
+Hybrid,0.4545,0.2303,0.0146
+Normalized Hybrid,0.4909,0.2606,0.0214

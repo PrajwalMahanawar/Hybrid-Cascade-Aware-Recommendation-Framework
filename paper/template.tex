@@ -1,0 +1,1037 @@
+\documentclass{article}
+\usepackage{placeins}
+\usepackage{caption}
+
+\captionsetup[figure]{skip=2pt}
+
+\setlength{\textfloatsep}{8pt}
+\setlength{\floatsep}{6pt}
+\setlength{\intextsep}{8pt}
+\usepackage{arxiv}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{doi}
+\usepackage{multirow}
+
+\title{A Hybrid Cascade-Aware Recommendation Framework Using Independent Cascade, Linear Threshold, and Hawkes-Based Temporal Diffusion Features}
+
+\author{
+Prajwal Mahanawar \\
+MSc in Data Science and Statistical Learning \\
+Department of Mathematics and Statistics \\
+University of Limerick \\
+Limerick, Ireland \\
+\texttt{p.s.mahanawar2002@gmail.com}
+}
+\renewcommand{\undertitle}{}
+\begin{document}
+
+\maketitle
+\begin{abstract}
+Recommendation systems play a critical role in modern digital platforms by enabling personalized content delivery across domains such as e-commerce, social media, and streaming services. However, traditional recommendation approaches, including collaborative filtering and similarity-based models, often fail to capture dynamic information propagation, temporal interaction behavior, and influence diffusion within complex networks.
+
+This paper proposes a \textit{Hybrid Cascade-Aware Recommendation Framework} that integrates the Independent Cascade Model (ICM), Linear Threshold Model (LTM), and Hawkes Process-based temporal diffusion modeling to improve recommendation generation. The framework models user-item interactions as graph-based diffusion structures, allowing the analysis of influence propagation, cascade behavior, and temporal interaction dynamics. ICM is used to model probabilistic influence spread, LTM captures collective neighborhood influence through threshold-based activation, and Hawkes Processes model self-exciting temporal interaction patterns.
+
+A weighted hybrid recommendation strategy is introduced to combine diffusion scores generated from the three models using normalized hybrid scoring mechanisms. Initial framework validation was conducted using synthetic interaction datasets, while final recommendation evaluation was performed using benchmark movie recommendation datasets under multiple train-test configurations. The framework was evaluated using recommendation and diffusion metrics including Precision@K, Recall@K, Hit Rate, cascade size, cascade depth, and structural virality.
+
+Experimental results demonstrate that the proposed hybrid framework provides balanced and interpretable recommendation behavior while offering deeper insights into information diffusion and temporal propagation. The study establishes a novel integration between diffusion theory, temporal point process modeling, and intelligent recommendation systems, providing a scalable foundation for future diffusion-aware and graph-driven recommendation architectures.
+
+\end{abstract}
+\keywords{
+Recommendation Systems, Information Diffusion, Independent Cascade Model, Linear Threshold Model, Hawkes Process, Cascade-Aware Recommendation, Temporal Diffusion Modeling, Graph-Based Recommendation Systems, Structural Virality, Influence Propagation, Hybrid Recommendation Framework, Temporal Point Processes, Complex Networks, AI-driven Personalization
+}
+
+
+\section{Introduction}
+
+Recommendation systems have become an essential component of modern intelligent platforms, enabling personalized content delivery across applications such as e-commerce, streaming services, social media, online learning platforms, digital advertising, and financial technology systems. The rapid growth of user-generated content and large-scale interaction networks has significantly increased the importance of designing recommendation models that can effectively capture complex user behavior, evolving preferences, and hidden interaction patterns. Traditional recommendation techniques, including collaborative filtering, matrix factorization, and content-based recommendation methods, primarily rely on historical user-item interactions and similarity measurements to generate recommendations. While these approaches have demonstrated strong performance in many applications, they often fail to capture the dynamic nature of information propagation and influence diffusion within interconnected network structures.
+
+In real-world systems, user behavior is rarely independent. Interactions between users and items are influenced by social exposure, temporal activity patterns, peer influence, and cascade propagation mechanisms. Information spreads through networks in a diffusion-like manner, where interactions, recommendations, or content consumption behaviors can trigger additional interactions among connected entities. Such propagation behavior is commonly observed in social media sharing, viral content dissemination, product adoption, online engagement patterns, and recommendation feedback loops. However, many existing recommendation systems ignore these diffusion dynamics and instead treat interactions as static and isolated events. This limitation reduces the capability of traditional recommendation architectures to model evolving influence structures and temporal propagation behavior.
+
+Information diffusion theory provides a strong foundation for modeling how influence propagates through networks. Diffusion models such as the Independent Cascade Model (ICM) and the Linear Threshold Model (LTM) have been widely studied in network science and social network analysis for understanding cascade propagation, influence maximization, and activation dynamics. The Independent Cascade Model captures probabilistic activation behavior, where activated nodes attempt to influence neighboring nodes through stochastic propagation processes. In contrast, the Linear Threshold Model focuses on collective neighborhood influence, where node activation occurs when accumulated influence exceeds predefined thresholds. These models provide valuable mechanisms for understanding how interactions spread across network structures and how influence relationships emerge over time.
+
+In addition to structural diffusion modeling, temporal dynamics play a critical role in real-world interaction networks. User engagement and information propagation are often time-dependent, where recent interactions may increase the likelihood of future activity. Hawkes Processes, which belong to the family of self-exciting temporal point processes, provide an effective framework for modeling such temporal interaction intensity and sequential propagation behavior. Hawkes-based diffusion modeling has been successfully applied in domains such as social media analysis, event prediction, financial modeling, and temporal cascade analysis due to its ability to capture excitation effects and time-sensitive propagation patterns.
+
+Motivated by the limitations of traditional recommendation approaches and the growing importance of diffusion-aware intelligent systems, this research proposes a \textit{Hybrid Cascade-Aware Recommendation Framework} that integrates Independent Cascade, Linear Threshold, and Hawkes Process-based temporal diffusion features into a unified recommendation architecture. The proposed framework models recommendation generation as a diffusion-driven process operating over graph-based interaction networks. By combining probabilistic cascade propagation, collective influence modeling, and temporal interaction dynamics, the framework aims to capture richer behavioral patterns and improve recommendation effectiveness in dynamic environments.
+
+The proposed system represents user-item interactions as graph structures where recommendations are influenced not only by direct interaction similarity but also by propagation pathways, influence spread, temporal excitation behavior, and cascade evolution patterns. A hybrid recommendation strategy is introduced to combine diffusion signals generated by ICM, LTM, and Hawkes-based temporal models using weighted and normalized scoring mechanisms. This approach enables the framework to balance structural and temporal influence components while improving recommendation robustness across different network configurations.
+
+To evaluate the proposed framework, experiments are conducted using synthetic interaction datasets and benchmark recommendation datasets under varying train-test configurations and diffusion settings. The evaluation process examines both recommendation quality and diffusion propagation behavior using metrics such as Hit Rate, Precision@K, Recall@K, cascade size, cascade depth, branching factor, and structural virality. Comparative analysis is performed against baseline recommendation methods and individual diffusion-based approaches to analyze the effectiveness of the hybrid framework.
+
+The major contributions of this research are summarized as follows:
+\begin{itemize}
+
+\item Proposes a novel hybrid cascade-aware recommendation framework integrating Independent Cascade Model, Linear Threshold Model, and Hawkes Process-based temporal diffusion modeling.
+
+\item Introduces graph-based diffusion-aware recommendation generation using probabilistic influence propagation and temporal interaction intensity.
+
+\item Develops normalized hybrid scoring mechanisms to combine structural and temporal diffusion features within recommendation systems.
+
+\item Provides extensive evaluation and comparative analysis using recommendation metrics and cascade propagation characteristics.
+
+\item Demonstrates the relationship between information diffusion theory, temporal cascade modeling, and intelligent recommendation systems within dynamic network environments.
+
+\end{itemize}
+The remainder of this paper is organized as follows. Section 2 discusses related work on recommendation systems, information diffusion models, and temporal cascade modeling. Section 3 presents the theoretical foundations underlying recommendation systems and diffusion modeling. Section 4 introduces the proposed Hybrid Cascade-Aware Recommendation Framework and system architecture. Section 5 presents the experimental setup, datasets, evaluation methodology, and analytical findings. Section 6 discusses the interpretation and implications of the experimental results. Sections 7 and 8 present the limitations and future research directions, respectively. Finally, Section 9 concludes the paper.
+\section{Related Work}
+
+Research on information diffusion and recommendation systems has gained significant attention across network science, machine learning, and data mining communities. Existing studies in this area can broadly be categorized into diffusion modeling, cascade prediction, temporal diffusion analysis, and graph-based recommendation systems.
+
+\subsection{Information Diffusion Models}
+
+One of the foundational works in diffusion research was introduced by \cite{kempe2003maximizing}, who proposed the Independent Cascade Model (ICM) and Linear Threshold Model (LTM) for modeling influence propagation in social networks. The study also formulated the influence maximization problem and demonstrated its NP-hard nature, motivating the use of greedy approximation algorithms and submodular optimization methods. These models became standard approaches for studying viral propagation, influence spread, and cascade simulation.
+
+Subsequent research explored diffusion behavior in online social networks, highlighting the importance of network structure and interaction dynamics in determining cascade evolution and influence propagation patterns.
+
+\subsection{Cascade Prediction and Structural Virality}
+
+Cascade prediction research focuses on estimating the future growth and structural behavior of information cascades. \cite{cheng2014can} proposed a cascade prediction framework using Facebook resharing data and demonstrated that temporal and structural features significantly influence cascade growth prediction.
+
+\cite{goel2016structural} introduced the concept of \textit{structural virality} to characterize diffusion structures between broadcast-driven and multigenerational viral propagation. Their work demonstrated that real-world cascades often exhibit hybrid propagation behavior containing both centralized and peer-to-peer diffusion patterns.
+
+Deep learning approaches have also been applied to cascade prediction. \cite{li2017deepcas} proposed DeepCas an end-to-end deep learning framework for cascade prediction using graph-based representations, while Neural Diffusion Models (NDM) proposed by \cite{yang2018neural}, modeled microscopic cascade behavior using neural architectures and attention mechanisms.
+
+\subsection{Temporal Diffusion Modeling and Hawkes Processes}
+
+Traditional diffusion models often ignore temporal interaction behavior and sequential event dependencies. Hawkes Processes have emerged as important tools for modeling self-exciting temporal diffusion systems.
+
+\cite{laub2025hawkes} reviewed Hawkes models and their applications across domains such as finance, epidemiology, and social media analysis. \cite{rizoiu2017hawkes} demonstrated the effectiveness of Hawkes Processes for modeling retweet cascades and online event propagation.
+
+SEISMIC, proposed by \cite{zhao2015seismic}, introduced a self-exciting point process framework for predicting tweet popularity and cascade growth using temporal resharing dynamics.
+
+\subsection{Recommendation Systems and Social Recommendation}
+
+Traditional recommendation systems primarily rely on collaborative filtering and similarity-based approaches for predicting user preferences. However, these methods often fail to incorporate influence propagation and social exposure dynamics.
+
+To address these limitations, \cite{wang2018collaborative} proposed SERec, a social recommendation framework that models social exposure rather than direct preference similarity. This approach aligns more closely with diffusion-driven recommendation behavior.
+
+Graph-based recommendation methods have also become increasingly important. SR-GNN proposed by \cite{wu2019session}, utilized Graph Neural Networks for session-based recommendation modeling, while DCRNN introduced by \cite{li2017diffusion}, demonstrated how diffusion processes can be integrated with recurrent neural architectures to capture spatiotemporal dependencies on graph structures.
+
+\subsection{Research Gap and Motivation}
+
+Despite significant progress in diffusion modeling and recommendation systems, relatively limited work has explored the integration of probabilistic diffusion models, temporal self-exciting processes, and recommendation generation within a unified hybrid framework.
+
+Most traditional recommendation systems treat user-item interactions as static observations and ignore evolving cascade propagation dynamics. Similarly, many diffusion studies focus primarily on influence spread or cascade prediction without directly incorporating recommendation objectives.
+
+Motivated by these limitations, this research proposes a Hybrid Cascade-Aware Recommendation Framework integrating Independent Cascade, Linear Threshold, and Hawkes-based temporal diffusion features into a unified recommendation architecture. The proposed framework combines structural diffusion modeling, temporal interaction intensity, and graph-based recommendation propagation to better capture evolving user behavior and dynamic influence patterns.
+
+Additionally, this work extends previous research on probabilistic inference of information cascades using Independent Cascade simulations and cascade reconstruction on Erdős–Rényi networks proposed by \cite{mahanawar2026cascade}.
+\section{Background and Theoretical Foundations}
+
+This section presents the theoretical concepts underlying the proposed Hybrid Cascade-Aware Recommendation Framework, including recommendation systems, information diffusion, probabilistic cascade models, temporal diffusion processes, and structural virality.
+
+\subsection{Recommendation Systems}
+
+Recommendation systems are designed to predict user preferences and generate personalized item suggestions using historical interaction data. They are widely used in e-commerce, streaming platforms, social media, and online advertising.
+
+\subsubsection{Collaborative Filtering}
+
+Collaborative Filtering (CF) assumes that users with similar historical behavior are likely to exhibit similar future preferences. User-based collaborative filtering recommends items preferred by similar users, while item-based collaborative filtering recommends items similar to those previously interacted with by the target user.
+
+Although collaborative filtering has achieved strong practical performance, it suffers from limitations such as:
+\begin{itemize}
+\item Data sparsity
+\item Cold-start problems
+\item Limited temporal modeling
+\item Inability to capture influence propagation
+\end{itemize}
+
+\subsubsection{Matrix Factorization}
+
+Matrix Factorization improves collaborative filtering by decomposing sparse user-item interaction matrices into low-dimensional latent feature representations. Given a user-item interaction matrix \(R\), matrix factorization approximates:
+
+\[
+R \approx UV^T
+\]
+
+where:
+\begin{itemize}
+\item \(U\) represents latent user embeddings
+\item \(V\) represents latent item embeddings
+\end{itemize}
+
+These latent representations capture hidden interaction patterns within recommendation data. However, matrix factorization methods primarily model static interactions and often fail to capture temporal diffusion and influence propagation behavior.
+
+\subsubsection{Graph-based Recommendation}
+
+Graph-based recommendation systems represent users and items as nodes connected through interaction edges. These approaches capture higher-order relationships, network structure, and neighborhood influence within recommendation environments.
+
+Recent graph learning approaches such as Graph Neural Networks (GNNs) further improve recommendation modeling by learning structural dependencies and sequential interaction behavior over graph representations.
+
+\subsection{Information Diffusion}
+
+Information diffusion refers to the spread of information, behaviors, or influence across interconnected networks. Diffusion processes are commonly observed in social media sharing, viral marketing, recommendation propagation, and online engagement systems.
+
+\subsubsection{Information Cascades}
+
+An information cascade occurs when users adopt or share information influenced by previous activations within the network. Cascades may vary in size, depth, branching behavior, and temporal evolution.
+
+Understanding cascade behavior is important for analyzing recommendation dissemination and influence propagation.
+
+\subsubsection{Influence Propagation}
+
+Influence propagation describes how activated users influence neighboring users through probabilistic or threshold-based activation mechanisms.
+
+The effectiveness of influence spread depends on:
+\begin{itemize}
+\item Network topology
+\item Node influence
+\item Activation probabilities
+\item Temporal interaction dynamics
+\end{itemize}
+
+\subsubsection{Cascade Dynamics}
+
+Cascade dynamics describe the structural and temporal evolution of diffusion processes. Important cascade characteristics include:
+\begin{itemize}
+\item Cascade size
+\item Cascade depth
+\item Branching factor
+\item Structural virality
+\end{itemize}
+
+These metrics help quantify recommendation propagation behavior within interaction networks.
+
+\subsection{Independent Cascade Model (ICM)}
+
+The Independent Cascade Model (ICM) is a probabilistic diffusion framework where activated nodes receive one opportunity to activate neighboring inactive nodes with transmission probability \(p_{uv}\).
+
+The diffusion process proceeds iteratively until no further activations occur.
+
+The activation probability of node \(v\) is defined as:
+
+\[
+P(v \text{ activated}) = 1 - \prod_{u \in N(v)} (1 - p_{uv})
+\]
+
+where:
+\begin{itemize}
+\item \(N(v)\) represents neighboring nodes
+\item \(p_{uv}\) denotes activation probability
+\end{itemize}
+
+ICM effectively models probabilistic influence spread and cascade propagation within recommendation environments.
+
+\subsection{Linear Threshold Model (LTM)}
+
+The Linear Threshold Model (LTM) models diffusion through collective neighborhood influence. Each node activates when cumulative influence from neighboring nodes exceeds a predefined threshold.
+
+The activation condition is defined as:
+
+\[
+\sum_{u \in N(v)} w_{uv} \geq \theta_v
+\]
+
+where:
+\begin{itemize}
+\item \(w_{uv}\) represents influence weight
+\item \(\theta_v\) denotes activation threshold
+\end{itemize}
+
+LTM captures social reinforcement and community-level influence behavior commonly observed in recommendation adoption systems.
+
+\subsection{Hawkes Process}
+
+Real-world diffusion systems exhibit strong temporal dependencies where recent interactions increase the probability of future interactions. Hawkes Processes are self-exciting temporal point processes designed to model such sequential event behavior.
+
+The conditional intensity function of a Hawkes Process is defined as:
+
+\[
+\lambda(t)=\mu+\sum_{t_i<t}\alpha e^{-\beta(t-t_i)}
+\]
+
+where:
+\begin{itemize}
+\item \(\lambda(t)\) represents event intensity
+\item \(\mu\) denotes baseline intensity
+\item \(\alpha\) controls excitation strength
+\item \(\beta\) controls temporal decay
+\item \(t_i\) denotes previous event timestamps
+\end{itemize}
+
+Hawkes Processes effectively capture temporal excitation effects, interaction bursts, and time-sensitive recommendation behavior.
+
+\subsection{Structural Virality}
+
+Structural virality measures the structural complexity of information cascades and distinguishes between broadcast-driven and multigenerational viral propagation.
+
+Broadcast diffusion occurs when a single source directly activates many users, producing shallow cascades. In contrast, viral diffusion spreads progressively across multiple network layers.
+
+Structural virality is commonly measured using the Wiener Index, which computes the average shortest path distance between node pairs within a cascade tree.
+
+Higher structural virality values indicate deeper and more distributed propagation behavior, while lower values indicate centralized broadcast-style diffusion.
+
+Structural virality analysis provides important insights into:
+\begin{itemize}
+\item Cascade topology
+\item Diffusion complexity
+\item Influence pathways
+\item Recommendation dissemination behavior
+\end{itemize}
+\section{Proposed Hybrid Cascade-Aware Recommendation Framework}
+
+This section presents the proposed Hybrid Cascade-Aware Recommendation Framework, which integrates probabilistic diffusion modeling, collective influence propagation, and temporal interaction dynamics into a unified recommendation architecture. The framework combines Independent Cascade diffusion, Linear Threshold influence modeling, and Hawkes Process-based temporal intensity estimation to generate diffusion-aware personalized recommendations.
+
+Traditional recommendation systems primarily rely on static interaction similarity and often ignore the dynamic mechanisms through which recommendations propagate across user networks. In contrast, the proposed framework models recommendation generation as a cascade-driven diffusion process operating over graph-based interaction structures. By incorporating structural propagation behavior and temporal excitation dynamics, the framework aims to better capture evolving user interests, influence relationships, and recommendation dissemination patterns.
+
+The proposed architecture consists of multiple interconnected components including graph construction, diffusion propagation modeling, temporal intensity estimation, hybrid score fusion, and Top-$K$ recommendation generation.
+
+
+\subsection{System Overview}
+
+The proposed framework models recommendation generation as a diffusion-driven propagation process operating over graph-based interaction structures. The framework integrates probabilistic diffusion, neighborhood influence, and temporal interaction dynamics to generate diffusion-aware recommendation scores.
+
+The complete pipeline is summarized below:
+
+\begin{center}
+\begin{verbatim}
+User-Item Interactions
+        ↓
+Graph Construction
+        ↓
+ICM Diffusion
+        ↓
+LTM Influence Modeling
+        ↓
+Hawkes Temporal Intensity
+        ↓
+Hybrid Score Fusion
+        ↓
+Top-K Recommendations
+\end{verbatim}
+\end{center}
+
+The framework operates in the following stages:
+
+\begin{enumerate}
+\item Historical user-item interaction data is transformed into graph structures.
+
+\item The Independent Cascade Model estimates probabilistic influence propagation scores.
+
+\item The Linear Threshold Model captures collective neighborhood influence and activation behavior.
+
+\item Hawkes Process modeling captures temporal interaction intensity and self-exciting dynamics.
+
+\item Diffusion scores are normalized and combined using weighted hybrid fusion.
+
+\item Final Top-\(K\) recommendations are generated using hybrid recommendation scores.
+\end{enumerate}
+
+The framework integrates both structural and temporal diffusion mechanisms, enabling recommendation generation to adapt dynamically to evolving interaction behavior.
+
+\subsection{Graph Construction}
+
+The proposed recommendation framework models user-item interactions as graph structures to capture connectivity patterns, influence propagation pathways, and diffusion dynamics within recommendation environments.
+
+\subsubsection{User-Item Interaction Graph}
+
+Let:
+\begin{itemize}
+\item $U = {u_1, u_2, ..., u_n}$ represent the set of users
+\item $I = {i_1, i_2, ..., i_m}$ represent the set of items
+\end{itemize}
+
+The interaction network is modeled as a bipartite graph:
+
+$$
+G = (U, I, E)
+$$
+
+where:
+\begin{itemize}
+\item $U$ and $I$ form two disjoint node sets
+\item $E$ represents interaction edges between users and items
+\end{itemize}
+
+An edge exists between user $u$ and item $i$ if the user has interacted with the item through actions such as:
+\begin{itemize}
+\item Viewing
+\item Clicking
+\item Purchasing
+\item Rating
+\item Sharing
+\end{itemize}
+
+Each interaction edge may additionally contain:
+\begin{itemize}
+\item Interaction timestamps
+\item Interaction frequency
+\item Edge weights
+\item Temporal recency information
+\end{itemize}
+
+\subsubsection{Weighted Diffusion Graph}
+
+To model influence propagation, the interaction graph is transformed into a weighted diffusion graph where edge weights represent propagation strength and interaction influence.
+
+The edge weight between nodes $u$ and $v$ is defined as:
+
+$$
+w_{uv} = \frac{\text{Interaction Frequency}}{\text{Total Interactions}}
+$$
+
+These weights help estimate:
+\begin{itemize}
+\item Influence probability
+\item Interaction importance
+\item Propagation likelihood
+\item Recommendation exposure strength
+\end{itemize}
+
+\subsubsection{Adjacency Matrix Representation}
+
+The graph can also be represented using an adjacency matrix $A$:
+
+$$
+A_{uv} =
+\begin{cases}
+1 & \text{if interaction exists} \
+0 & \text{otherwise}
+\end{cases}
+$$
+
+Weighted adjacency matrices allow efficient computation of:
+\begin{itemize}
+\item Diffusion propagation
+\item Neighborhood aggregation
+\item Graph traversal
+\item Cascade simulation
+\end{itemize}
+
+Graph construction forms the structural foundation of the proposed cascade-aware recommendation framework.
+
+\subsection{Independent Cascade Recommendation Component}
+
+The Independent Cascade Recommendation Component models recommendation propagation using probabilistic influence diffusion inspired by the Independent Cascade Model (ICM).
+
+In this framework:
+\begin{itemize}
+\item Activated users propagate recommendation influence to neighboring users
+\item Propagation occurs probabilistically
+\item Recommendation exposure spreads iteratively through the interaction network
+\end{itemize}
+
+\subsubsection{Diffusion Probability}
+
+Each activated node receives one opportunity to activate neighboring nodes with propagation probability \(p_{uv}\).
+
+The activation probability of node \(v\) is defined as:
+
+\[
+P(v \text{ activated}) =
+1 - \prod_{u \in N(v)} (1 - p_{uv})
+\]
+
+where:
+\begin{itemize}
+\item \(N(v)\) represents neighboring nodes
+\item \(p_{uv}\) represents diffusion probability
+\end{itemize}
+
+
+\subsubsection{Propagation Score}
+
+The ICM propagation score measures the likelihood that a recommendation spreads from one user to another through cascade propagation.
+
+The propagation score incorporates:
+\begin{itemize}
+\item Interaction frequency
+\item User influence
+\item Diffusion depth
+\item Activation probability
+\end{itemize}
+
+Higher propagation scores indicate stronger recommendation dissemination potential.
+
+\subsubsection{Cascade Simulation}
+
+Monte Carlo cascade simulations are performed to estimate expected recommendation spread under varying propagation probabilities and network conditions.
+
+The cascade simulation process:
+\begin{enumerate}
+\item Initializes seed recommendation nodes
+\item Iteratively propagates activation
+\item Tracks activated users
+\item Computes propagation metrics
+\end{enumerate}
+
+Simulation outputs include:
+\begin{itemize}
+\item Cascade size
+\item Cascade depth
+\item Structural virality
+\item Recommendation spread probability
+\end{itemize}
+
+\subsection{Linear Threshold Recommendation Component}
+
+The Linear Threshold Recommendation Component models collective neighborhood influence and social reinforcement effects within recommendation propagation.
+
+Unlike the Independent Cascade component, where activations occur independently, the Linear Threshold Model assumes that recommendation adoption depends on cumulative influence from multiple neighboring users.
+
+\subsubsection{Neighborhood Influence}
+
+Each neighboring node contributes influence weight $w_{uv}$ toward activating node $v$.
+
+Influence accumulation is represented as:
+
+$$
+\text{Influence}(v) = \sum_{u \in N(v)} w_{uv}
+$$
+
+\subsubsection{Threshold Activation}
+
+Each node \(v\) is assigned an activation threshold \(\theta_v\). Recommendation activation occurs when cumulative neighborhood influence exceeds the threshold.
+
+The activation condition is defined as:
+
+\[
+\sum_{u \in N(v)} w_{uv} \geq \theta_v
+\]
+
+This mechanism captures:
+\begin{itemize}
+\item Social reinforcement
+\item Community influence
+\item Collective recommendation adoption
+\item Peer-driven engagement behavior
+\end{itemize}
+
+
+\subsubsection{Influence Accumulation}
+
+The influence accumulation process models how repeated exposure and multiple neighborhood interactions increase recommendation adoption probability.
+
+This component helps capture:
+\begin{itemize}
+\item Community-driven recommendation spread
+\item Multi-user exposure effects
+\item Group-level activation dynamics
+\end{itemize}
+
+\subsection{Hawkes Temporal Recommendation Component}
+
+The Hawkes Temporal Recommendation Component captures time-sensitive interaction dynamics and self-exciting recommendation propagation behavior.
+
+Real-world recommendation systems exhibit strong temporal dependencies where recent interactions increase the likelihood of future interactions. Hawkes Processes effectively model such sequential excitation dynamics.
+
+\subsubsection{Temporal Excitation}
+
+The Hawkes intensity function is defined as:
+
+\[
+\lambda(t)=\mu+\sum_{t_i<t}\alpha e^{-\beta(t-t_i)}
+\]
+
+where:
+\begin{itemize}
+\item \(\lambda(t)\) denotes recommendation intensity
+\item \(\mu\) represents baseline activity
+\item \(\alpha\) controls excitation strength
+\item \(\beta\) controls temporal decay
+\end{itemize}
+
+
+\subsubsection{Recency Effects}
+
+Recent interactions contribute more strongly to recommendation intensity than older interactions due to exponential temporal decay.
+
+This enables the framework to model:
+\begin{itemize}
+\item Trending behavior
+\item Short-term popularity bursts
+\item Time-sensitive engagement
+\item Dynamic recommendation relevance
+\end{itemize}
+
+\subsubsection{Time-Sensitive Recommendations}
+
+The Hawkes component generates temporally adaptive recommendation scores capable of responding dynamically to evolving interaction behavior and diffusion activity.
+
+This improves:
+\begin{itemize}
+\item Real-time personalization
+\item Dynamic recommendation ranking
+\item Temporal recommendation freshness
+\end{itemize}
+
+\subsection{Hybrid Recommendation Fusion}
+
+The Hybrid Recommendation Fusion module combines outputs from the Independent Cascade, Linear Threshold, and Hawkes diffusion components into a unified recommendation score.
+
+This hybrid integration represents the primary contribution of the proposed framework.
+
+\subsubsection{Hybrid Recommendation Score}
+
+The hybrid recommendation score is computed as:
+
+\[
+S_{hybrid}=w_1S_{ICM}+w_2S_{LTM}+w_3S_{Hawkes}
+\]
+
+where:
+\begin{itemize}
+\item \(S_{ICM}\) denotes Independent Cascade score
+\item \(S_{LTM}\) denotes Linear Threshold score
+\item \(S_{Hawkes}\) denotes Hawkes temporal score
+\item \(w_1, w_2, w_3\) represent weighting coefficients
+\end{itemize}
+
+
+\subsubsection{Score Normalization}
+
+Since each diffusion component operates on different numerical scales, score normalization is applied before fusion.
+
+Normalization improves:
+\begin{itemize}
+\item Stability
+\item Fair component contribution
+\item Recommendation consistency
+\end{itemize}
+
+Min-max normalization is applied as:
+
+$$
+S' = \frac{S - S_{min}}{S_{max} - S_{min}}
+$$
+
+\subsubsection{Weight Tuning}
+
+The weighting parameters $w_1, w_2, w_3$ are optimized experimentally using grid search and evaluation metrics such as:
+\begin{itemize}
+\item Precision@K
+\item Recall@K
+\item Hit Rate
+\end{itemize}
+
+Weight tuning allows the framework to balance:
+\begin{itemize}
+\item Structural diffusion
+\item Neighborhood reinforcement
+\item Temporal excitation
+\end{itemize}
+
+\subsubsection{Balancing Diffusion Signals}
+
+The hybrid fusion mechanism enables the framework to integrate complementary diffusion perspectives:
+\begin{itemize}
+\item ICM captures probabilistic propagation
+\item LTM captures collective influence
+\item Hawkes captures temporal dynamics
+\end{itemize}
+
+This integration improves recommendation robustness and diffusion-aware personalization.
+
+\section{Experiments and Results}
+
+This section presents the experimental setup, evaluation methodology, and analytical findings of the proposed Hybrid Cascade-Aware Recommendation Framework. The experiments evaluate both recommendation performance and diffusion propagation behavior under different interaction and network settings.
+
+\subsection{Experimental Setup}
+
+The experiments were implemented using Python-based data science and network analysis libraries, including Pandas, NumPy, NetworkX, Scikit-learn, Matplotlib, and SciPy. The experimental pipeline included data preprocessing, graph construction, diffusion simulation, temporal intensity estimation, hybrid score fusion, and evaluation.
+
+Experiments were conducted using synthetic interaction datasets and benchmark recommendation datasets. The synthetic dataset was generated to simulate controlled user-item interactions, temporal activity, and diffusion behavior. Benchmark recommendation datasets, such as MovieLens-style user-item interaction data, were used to evaluate recommendation effectiveness under more realistic conditions.
+
+\subsection{Dataset and Preprocessing}
+
+The experiments were conducted using both synthetic interaction datasets and benchmark recommendation datasets.
+
+Initially, a synthetic dataset based on a briefs recommendation environment was generated to verify whether the proposed diffusion-aware recommendation framework was functioning correctly under controlled conditions. The synthetic dataset consisted of users, briefs, and interaction records containing actions such as views, likes, saves, shares, and submissions. Temporal interaction timestamps were also generated to support temporal diffusion modeling. The synthetic data generation process created 100 users, 50 briefs, and 5000 interaction records with weighted interaction probabilities and randomized timestamps. 
+
+The synthetic dataset was primarily used for:
+\begin{itemize}
+\item Verifying recommendation propagation behavior
+\item Testing cascade simulation logic
+\item Evaluating diffusion score generation
+\item Checking whether the hybrid framework operated correctly
+\end{itemize}
+
+However, since synthetic interaction data may not fully capture realistic user behavior and recommendation dynamics, additional experiments were conducted using the MovieLens benchmark movie recommendation dataset.
+
+Movie recommendation data was selected because:
+\begin{itemize}
+\item MovieLens is a widely used benchmark dataset in recommendation system research
+\item It contains realistic user-item interaction behavior
+\item The dataset supports evaluation of recommendation quality under sparse interaction settings
+\item Temporal ratings and interaction history make it suitable for diffusion-aware recommendation analysis
+\end{itemize}
+
+The original MovieLens dataset was provided in \texttt{.dat} format containing ratings, movies, and user information. The files were converted into CSV format using a preprocessing pipeline implemented in Python. Ratings data was transformed into interaction records, movie metadata was converted into structured item data, and user metadata was processed for graph construction and recommendation experiments. \\
+The processed interaction data was then transformed into a graph structure:
+
+\[
+G = (U, I, E)
+\]
+
+where:
+\begin{itemize}
+\item \(U\) represents users
+\item \(I\) represents items
+\item \(E\) represents interaction edges
+\end{itemize}
+
+The graph was modeled as a bipartite user-item network, with weighted edges representing interaction frequency, recommendation exposure strength, and temporal activity information.
+
+Before graph construction, duplicate interactions were removed, timestamps were normalized, and interaction records were structured into graph-compatible formats for diffusion simulation and recommendation analysis.
+
+
+\subsection{Diffusion and Recommendation Setup}
+
+The recommendation framework integrates Independent Cascade diffusion, Linear Threshold influence modeling, and Hawkes Process-based temporal dynamics as described in Section 3 and Section 4.
+
+The diffusion models were applied over the constructed user-item interaction graph to generate propagation-aware and temporally adaptive recommendation scores. Hybrid recommendation scores were computed using weighted score fusion, where weighting parameters were tuned experimentally using recommendation evaluation metrics.
+
+\subsection{Evaluation Metrics}
+
+The framework was evaluated using both recommendation and diffusion metrics. Recommendation performance was measured using Precision@K, Recall@K, and Hit Rate.
+
+\[
+Precision@K = \frac{\text{Relevant Recommended Items}}{K}
+\]
+
+\[
+Recall@K = \frac{\text{Relevant Recommended Items}}{\text{Total Relevant Items}}
+\]
+
+\[
+HitRate = \frac{\text{Number of Successful Hits}}{\text{Total Users}}
+\]
+
+Diffusion behavior was analyzed using cascade size, cascade depth, branching factor, structural virality, and temporal propagation patterns. These metrics were used to evaluate how recommendation signals spread through the interaction network.
+
+\subsection{Baseline Models}
+
+The proposed framework was compared against the following baseline and standalone models:
+
+\begin{itemize}
+\item Collaborative Filtering Baseline
+\item Independent Cascade Recommendation Model
+\item Linear Threshold Recommendation Model
+\item Hawkes Temporal Recommendation Model
+\item Hybrid Cascade-Aware Recommendation Framework
+\end{itemize}
+
+This comparison was used to analyze the contribution of each diffusion component and the effectiveness of the hybrid integration strategy.
+
+\subsection{Recommendation Performance}
+
+It is important to note that the final experimental results presented in this study were generated using the MovieLens movie recommendation dataset. The synthetic briefs interaction dataset was used only during the initial development phase to verify that the proposed diffusion-aware recommendation framework, graph construction pipeline, cascade simulation process, and hybrid recommendation logic were functioning correctly under controlled conditions.
+
+The final recommendation evaluation was performed on the MovieLens dataset after converting the original \texttt{.dat} files into structured CSV interaction data suitable for graph-based diffusion modeling and temporal recommendation analysis.
+
+The recommendation experiments were conducted using multiple dataset scales consisting of 10K, 25K, and 50K interaction records to evaluate scalability and recommendation consistency under increasing interaction density.
+
+The recommendation evaluation showed that different diffusion models behaved differently across varying dataset sizes and interaction environments. The collaborative filtering baseline consistently achieved stable recommendation performance due to direct interaction similarity modeling. However, the baseline model lacked the ability to capture influence propagation and temporal recommendation dynamics.
+
+The Independent Cascade Model improved propagation diversity by allowing recommendation signals to spread probabilistically through graph-based interaction pathways. The Hawkes Process component effectively captured temporal recommendation intensity and recent interaction behavior. In contrast, the Linear Threshold Model produced more conservative recommendation behavior due to threshold-based activation constraints.
+
+Although the hybrid framework did not consistently outperform every standalone model across all evaluation metrics, it demonstrated more balanced and interpretable diffusion-aware recommendation behavior by combining probabilistic propagation, neighborhood influence, and temporal excitation dynamics.
+
+Figure~\ref{fig:precision_scaling} presents Precision@3 scaling across increasing dataset sizes. The baseline model achieved the highest precision values overall, while the normalized hybrid framework demonstrated competitive and stable performance under larger interaction settings.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\linewidth]{precision_scaling.png}
+\caption{Precision@3 scaling across dataset sizes}
+\label{fig:precision_scaling}
+\end{figure}
+
+\FloatBarrier
+
+Figure~\ref{fig:recall_scaling} shows Recall@3 performance across different dataset sizes. The normalized hybrid framework demonstrated improved recall under larger datasets, suggesting that combining diffusion components can improve recommendation coverage and retrieval capability.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\linewidth]{recall_scaling.png}
+\caption{Recall@3 scaling across dataset sizes}
+\label{fig:recall_scaling}
+\end{figure}
+\FloatBarrier
+Figure~\ref{fig:hitrate_scaling} presents Hit Rate scaling across increasing interaction sizes. The results indicate that the baseline and normalized hybrid approaches maintained relatively stable performance, while diffusion-aware models exhibited varying behavior depending on interaction density and propagation characteristics.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\linewidth]{hit_rate_scaling.png}
+\caption{Hit Rate scaling across dataset sizes}
+\label{fig:hitrate_scaling}
+\end{figure}
+\FloatBarrier
+To further analyze recommendation interpretability, recommendation explanations were generated for multiple example users using normalized hybrid recommendation scores. The recommendation engine decomposed each recommendation into Independent Cascade, Linear Threshold, and Hawkes Process contribution scores.
+
+The recommendation analysis pipeline constructed a user-movie bipartite graph from MovieLens interactions and generated hybrid recommendation scores using weighted diffusion fusion. The implementation pipeline is shown in the recommendation analysis code. 
+
+Example recommendation outputs showed that:
+\begin{itemize}
+\item High ICM scores corresponded to stronger cascade propagation potential
+\item High Hawkes scores captured strong temporal interaction intensity
+\item LTM contributions remained limited in sparse interaction environments
+\end{itemize}
+
+For example, users such as \(U1\), \(U10\), and \(U50\) received recommendations including \textit{Bicycle Thief}, \textit{West Beirut}, \textit{Jurassic Park}, and \textit{Saving Private Ryan}, where recommendation rankings varied according to diffusion propagation and temporal interaction intensity.
+
+The recommendation interpretation process demonstrated that diffusion-aware recommendation systems can provide more explainable recommendation behavior compared to purely similarity-based recommendation approaches.
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+
+\subsection{Diffusion Behavior Analysis}
+The diffusion analysis examined how recommendation signals propagated through the graph structure generated from MovieLens interactions.
+
+Figure~\ref{fig:bipartite_graph} illustrates the user-movie bipartite interaction graph constructed from the recommendation dataset. Users and movies were represented as separate node types connected through interaction edges.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\linewidth]{user_movie_bipartite_graph.png}
+\caption{User-movie bipartite interaction graph}
+\label{fig:bipartite_graph}
+\end{figure}
+\FloatBarrier
+The diffusion propagation experiments showed that cascade spread distributions were highly skewed, with most recommendation cascades remaining relatively small while a few cascades achieved significantly larger propagation spread. This behavior is consistent with real-world information diffusion environments where viral propagation events are comparatively rare.
+
+Figure~\ref{fig:diffusion_distribution} presents the diffusion spread distribution generated using Independent Cascade and Linear Threshold propagation mechanisms.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\linewidth]{diffusion_spread_distribution.png}
+\caption{Diffusion spread distribution across propagation models}
+\label{fig:diffusion_distribution}
+\end{figure}
+\FloatBarrier
+The Independent Cascade component produced broader propagation behavior due to probabilistic activation spread, whereas the Linear Threshold component generated more constrained and localized activation patterns.
+
+Figure~\ref{fig:icm_cascade} visualizes an Independent Cascade propagation process beginning from a seed movie node. The cascade activated 1424 nodes across the interaction graph, demonstrating how recommendation signals can spread through interconnected user-item relationships.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\linewidth]{icm_cascade_propagation.png}
+\caption{ICM cascade propagation from seed movie node}
+\label{fig:icm_cascade}
+\end{figure}
+\FloatBarrier
+The cascade analysis showed that recommendation propagation can occur through both shallow broadcast-like spread and deeper multigenerational propagation pathways.
+
+\subsection{Temporal Diffusion Analysis}
+
+Temporal interaction analysis was performed to evaluate how recommendation intensity evolved over time.
+
+Figure~\ref{fig:temporal_timeline} illustrates the temporal interaction timeline generated from MovieLens interaction timestamps. The timeline shows that interaction activity was highly concentrated during specific periods while remaining sparse during others.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.6\linewidth]{temporal_interaction_timeline.png}
+\caption{Temporal interaction timeline}
+\label{fig:temporal_timeline}
+\end{figure}
+\FloatBarrier
+The Hawkes Process component successfully captured self-exciting temporal interaction behavior by assigning higher recommendation intensity to recent interaction events and gradually decaying older interaction influence over time.
+
+This temporal modeling allowed the recommendation framework to generate more adaptive and time-sensitive recommendation scores capable of responding dynamically to evolving interaction activity.
+
+\subsection{Hybrid Component Analysis}
+
+To understand the contribution of each diffusion model within the hybrid recommendation framework, normalized component analysis was performed across recommended movie nodes.
+
+Figure~\ref{fig:hybrid_components} illustrates the normalized contribution of Independent Cascade, Linear Threshold, and Hawkes Process scores across selected movie recommendations.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{hybrid_component_analysis.png}
+\caption{Normalized hybrid recommendation component analysis}
+\label{fig:hybrid_components}
+\end{figure}
+\FloatBarrier
+The analysis demonstrated that:
+\begin{itemize}
+\item ICM contributed strongly to structural recommendation propagation
+\item Hawkes components captured temporal recommendation intensity
+\item LTM contributions remained comparatively weaker under sparse interaction conditions
+\end{itemize}
+
+These observations suggest that different diffusion components contribute distinct recommendation characteristics within the hybrid framework.
+
+\subsection{Summary of Findings}
+
+Overall, the experiments demonstrate that the proposed Hybrid Cascade-Aware Recommendation Framework successfully integrates probabilistic diffusion propagation, collective neighborhood influence, and temporal self-excitation into a unified recommendation architecture.
+
+The major findings are summarized as follows:
+
+\begin{itemize}
+\item Diffusion-aware recommendation models provide richer propagation insights than traditional static recommendation systems.
+\item Independent Cascade diffusion improves propagation diversity and recommendation spread analysis.
+\item Hawkes Process modeling effectively captures temporal interaction intensity and recency-sensitive recommendation behavior.
+\item Linear Threshold propagation provides controlled neighborhood influence behavior but may underperform in sparse interaction settings.
+\item The hybrid framework provides balanced and interpretable recommendation behavior by integrating structural and temporal diffusion mechanisms.
+\item Recommendation propagation behavior can be effectively analyzed using graph-based cascade visualization and diffusion spread metrics.
+\end{itemize}
+
+These findings demonstrate that integrating information diffusion theory and temporal propagation modeling into recommendation systems can improve recommendation interpretability, propagation analysis, and dynamic personalization within complex interaction networks.
+
+\section{Discussion}
+
+This section discusses the significance of the experimental findings and the implications of the proposed Hybrid Cascade-Aware Recommendation Framework.
+
+The experimental results demonstrate that integrating probabilistic diffusion, neighborhood influence propagation, and temporal interaction dynamics can provide richer recommendation behavior compared to traditional static recommendation approaches.
+
+\subsection{Strengths of the Proposed Framework}
+
+One of the primary strengths of the framework is its ability to model recommendation generation as a dynamic propagation process rather than a static similarity estimation problem.
+
+The proposed framework integrates:
+\begin{itemize}
+\item Independent Cascade diffusion for probabilistic propagation
+\item Linear Threshold diffusion for neighborhood influence
+\item Hawkes Process modeling for temporal interaction intensity
+\end{itemize}
+
+The experiments demonstrated that:
+\begin{itemize}
+\item ICM improves propagation diversity
+\item LTM captures neighborhood reinforcement behavior
+\item Hawkes modeling improves temporal adaptability
+\end{itemize}
+
+Another important strength is the graph-based representation of recommendation environments, which improves interpretability through:
+\begin{itemize}
+\item cascade visualization,
+\item influence pathway analysis,
+\item and temporal recommendation tracking.
+\end{itemize}
+
+Recommendation interpretation outputs for users such as \(U1\), \(U10\), and \(U50\) further demonstrated how diffusion components contributed to recommendation ranking behavior.
+
+\subsection{Interpretation of Experimental Findings}
+
+The experimental findings reveal several important observations regarding diffusion-aware recommendation systems.
+
+The diffusion spread analysis showed highly skewed propagation distributions, where most cascades remained relatively small while a limited number achieved larger propagation spread. This behavior resembles real-world information diffusion systems commonly observed on social media platforms.
+
+The Independent Cascade component produced broader propagation patterns due to probabilistic activation spread, while the Linear Threshold component generated more constrained neighborhood-based propagation behavior.
+
+Temporal interaction analysis demonstrated that recommendation activity is highly time-sensitive. The Hawkes Process component effectively captured self-exciting temporal behavior by assigning stronger recommendation intensity to recent interactions.
+
+Although the hybrid framework did not consistently outperform every standalone model across all metrics, it demonstrated more balanced and interpretable recommendation behavior across varying dataset sizes and interaction environments.
+
+\subsection{Applications and Implications}
+
+The proposed framework has potential applications in:
+\begin{itemize}
+\item social media recommendation,
+\item viral marketing,
+\item content personalization,
+\item and engagement-driven recommendation systems.
+\end{itemize}
+
+By integrating probabilistic diffusion and temporal propagation modeling, the framework supports:
+\begin{itemize}
+\item recommendation explainability,
+\item trend-sensitive recommendation generation,
+\item temporal recommendation adaptation,
+\item and influence-aware personalization.
+\end{itemize}
+
+The experimental results suggest that diffusion-aware recommendation systems can better model evolving interaction behavior and recommendation dissemination within dynamic online environments.
+
+\section{Limitations}
+
+Although the proposed Hybrid Cascade-Aware Recommendation Framework demonstrates promising results, several limitations remain.
+
+\subsection{Synthetic Data Limitations}
+
+The synthetic briefs interaction dataset was used only for initial framework validation and diffusion testing. Final recommendation evaluation was performed using the MovieLens benchmark dataset. While MovieLens provides realistic interaction behavior, it does not fully represent large-scale real-world recommendation ecosystems.
+
+\subsection{Scalability Challenges}
+
+The framework incorporates computationally intensive processes such as:
+\begin{itemize}
+\item Monte Carlo cascade simulation
+\item Threshold-based diffusion propagation
+\item Hawkes temporal intensity estimation
+\end{itemize}
+
+As network size increases, computational complexity also increases significantly, creating scalability challenges for large-scale deployment.
+
+\subsection{Parameter Sensitivity}
+
+The framework depends on several tunable parameters including diffusion probabilities, activation thresholds, temporal decay coefficients, and hybrid weighting values. Recommendation performance may vary depending on parameter selection.
+
+\subsection{Simplified Diffusion Assumptions}
+
+The Independent Cascade, Linear Threshold, and Hawkes models rely on simplified assumptions regarding influence propagation and temporal interaction behavior. Real-world recommendation environments may involve more complex contextual and behavioral factors.
+
+\subsection{Real-World Deployment Challenges}
+
+Practical deployment may introduce additional challenges including:
+\begin{itemize}
+\item dynamic graph updates,
+\item streaming interaction data,
+\item recommendation latency,
+\item privacy constraints,
+\item and recommendation bias.
+\end{itemize}
+
+\section{Future Work}
+
+Several promising directions can extend the proposed framework.
+
+\subsection{Graph Neural Networks}
+
+Future work may integrate Graph Neural Networks (GNNs) and Graph Attention Networks (GATs) to improve structural representation learning and adaptive influence propagation.
+
+\subsection{Reinforcement Learning-Based Recommendation}
+
+Reinforcement learning may enable dynamic recommendation policies, long-term engagement optimization, and adaptive recommendation propagation strategies.
+
+\subsection{Real-World Social Network Datasets}
+
+Future evaluation should use large-scale real-world datasets from platforms such as Twitter, Reddit, TikTok, YouTube, and e-commerce recommendation systems.
+
+\subsection{Dynamic Graph Learning}
+
+Future research may incorporate dynamic graph learning where interaction networks evolve continuously over time.
+
+\subsection{LLM-Enhanced Recommendation Systems}
+
+Large Language Models (LLMs) may improve recommendation explainability, semantic reasoning, and context-aware personalization within diffusion-aware recommendation environments.
+
+\section{Conclusion}
+
+This paper proposed a Hybrid Cascade-Aware Recommendation Framework integrating Independent Cascade diffusion, Linear Threshold influence modeling, and Hawkes Process-based temporal dynamics into a unified recommendation architecture.
+
+Unlike traditional recommendation systems that rely primarily on static similarity estimation, the proposed framework models recommendation generation as a diffusion-driven propagation process operating over graph-based interaction networks.
+
+Experimental evaluation using the MovieLens benchmark dataset demonstrated that:
+\begin{itemize}
+\item Independent Cascade diffusion improves propagation diversity,
+\item Hawkes modeling captures temporal interaction intensity,
+\item and hybrid diffusion integration provides balanced and interpretable recommendation behavior.
+\end{itemize}
+
+The study also highlighted the importance of graph-based propagation modeling, structural virality analysis, and temporal diffusion dynamics for understanding recommendation dissemination within complex interaction networks.
+
+Overall, this research establishes a novel integration between information diffusion theory, temporal point process modeling, and intelligent recommendation systems, providing a foundation for future diffusion-aware recommendation architectures operating in dynamic network environments.
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+
+\end{document}

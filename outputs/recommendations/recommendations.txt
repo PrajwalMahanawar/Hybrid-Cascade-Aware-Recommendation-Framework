@@ -1,0 +1,174 @@
+
+===============================================
+User: U1
+================================================
+
+Previously Watched Movies:
+- One Flew Over the Cuckoo's Nest (1975)
+- James and the Giant Peach (1996)
+- My Fair Lady (1964)
+- Erin Brockovich (2000)
+- Bug's Life, A (1998)
+- Princess Bride, The (1987)
+- Ben-Hur (1959)
+- Christmas Story, A (1983)
+- Snow White and the Seven Dwarfs (1937)
+- Wizard of Oz, The (1939)
+
+Top Recommendations:
+
+1. Bicycle Thief, The (Ladri di biciclette) (1948)
+   Movie ID: M3089
+   Hybrid Score: 0.5179
+   ICM Component: 0.2981
+   LTM Component: 0.0000
+   Hawkes Component: 0.9968
+
+2. West Beirut (West Beyrouth) (1998)
+   Movie ID: M2839
+   Hybrid Score: 0.4634
+   ICM Component: 0.1584
+   LTM Component: 0.0000
+   Hawkes Component: 1.0000
+
+3. Jurassic Park (1993)
+   Movie ID: M480
+   Hybrid Score: 0.4000
+   ICM Component: 1.0000
+   LTM Component: 0.0000
+   Hawkes Component: 0.0000
+
+4. Aliens (1986)
+   Movie ID: M1200
+   Hybrid Score: 0.3889
+   ICM Component: 0.9722
+   LTM Component: 0.0000
+   Hawkes Component: 0.0000
+
+5. Alien (1979)
+   Movie ID: M1214
+   Hybrid Score: 0.3856
+   ICM Component: 0.9641
+   LTM Component: 0.0000
+   Hawkes Component: 0.0000
+
+Interpretation Guide:
+- High ICM means strong cascade spread potential.
+- High LTM means threshold-based activation support.
+- High Hawkes means strong temporal/recent interaction intensity.
+
+================================================
+User: U10
+================================================
+
+Previously Watched Movies:
+- Midsummer Night's Dream, A (1999)
+- Mission: Impossible (1996)
+- Star Wars: Episode I - The Phantom Menace (1999)
+- Defending Your Life (1991)
+- Breaking Away (1979)
+- Truman Show, The (1998)
+- Prophecy II, The (1998)
+- Alien³ (1992)
+- Addams Family, The (1991)
+- Ever After: A Cinderella Story (1998)
+
+Top Recommendations:
+
+1. Bicycle Thief, The (Ladri di biciclette) (1948)
+   Movie ID: M3089
+   Hybrid Score: 0.5163
+   ICM Component: 0.2939
+   LTM Component: 0.0000
+   Hawkes Component: 0.9968
+
+2. Green Mile, The (1999)
+   Movie ID: M3147
+   Hybrid Score: 0.4000
+   ICM Component: 1.0000
+   LTM Component: 0.0000
+   Hawkes Component: 0.0000
+
+3. West Beirut (West Beyrouth) (1998)
+   Movie ID: M2839
+   Hybrid Score: 0.4000
+   ICM Component: 0.0000
+   LTM Component: 0.0000
+   Hawkes Component: 1.0000
+
+4. Fargo (1996)
+   Movie ID: M608
+   Hybrid Score: 0.3984
+   ICM Component: 0.9961
+   LTM Component: 0.0000
+   Hawkes Component: 0.0000
+
+5. Saving Private Ryan (1998)
+   Movie ID: M2028
+   Hybrid Score: 0.3894
+   ICM Component: 0.9735
+   LTM Component: 0.0000
+   Hawkes Component: 0.0000
+
+Interpretation Guide:
+- High ICM means strong cascade spread potential.
+- High LTM means threshold-based activation support.
+- High Hawkes means strong temporal/recent interaction intensity.
+
+================================================
+User: U50
+================================================
+
+Previously Watched Movies:
+- Mission: Impossible (1996)
+- Replacements, The (2000)
+- Cell, The (2000)
+- X-Men (2000)
+- Doctor Dolittle (1967)
+- She's the One (1996)
+- Fantasia (1940)
+- Rosemary's Baby (1968)
+- Breakfast at Tiffany's (1961)
+- Children of a Lesser God (1986)
+
+Top Recommendations:
+
+1. West Beirut (West Beyrouth) (1998)
+   Movie ID: M2839
+   Hybrid Score: 0.4685
+   ICM Component: 0.1712
+   LTM Component: 0.0000
+   Hawkes Component: 1.0000
+
+2. Star Wars: Episode VI - Return of the Jedi (1983)
+   Movie ID: M1210
+   Hybrid Score: 0.4000
+   ICM Component: 1.0000
+   LTM Component: 0.0000
+   Hawkes Component: 0.0000
+
+3. Bicycle Thief, The (Ladri di biciclette) (1948)
+   Movie ID: M3089
+   Hybrid Score: 0.3987
+   ICM Component: 0.0000
+   LTM Component: 0.0000
+   Hawkes Component: 0.9968
+
+4. Indiana Jones and the Last Crusade (1989)
+   Movie ID: M1291
+   Hybrid Score: 0.3923
+   ICM Component: 0.9806
+   LTM Component: 0.0000
+   Hawkes Component: 0.0000
+
+5. Forrest Gump (1994)
+   Movie ID: M356
+   Hybrid Score: 0.3793
+   ICM Component: 0.9482
+   LTM Component: 0.0000
+   Hawkes Component: 0.0000
+
+Interpretation Guide:
+- High ICM means strong cascade spread potential.
+- High LTM means threshold-based activation support.
+- High Hawkes means strong temporal/recent interaction intensity.
