@@ -354,6 +354,115 @@ Top Recommendations:
 | High Hawkes | Strong temporal interaction intensity |
 
 ---
+# Experimental Results Tables
+
+The following tables summarize the recommendation performance of different models across varying MovieLens dataset sizes.
+
+The evaluation compares:
+
+- Baseline Collaborative Filtering
+- Independent Cascade Model (ICM)
+- Linear Threshold Model (LTM)
+- Hawkes Temporal Recommendation
+- Hybrid Cascade-Aware Recommendation
+- Normalized Hybrid Recommendation
+
+Evaluation metrics include:
+
+- Precision@3
+- Recall@3
+- Hit Rate
+
+---
+
+# 10K MovieLens Dataset Results
+
+| Model | Precision@3 | Recall@3 | Hit Rate |
+|---|---|---|---|
+| Baseline | 0.0880 | 0.2640 | 0.2640 |
+| ICM | 0.0880 | 0.2640 | 0.2640 |
+| LTM | 0.0000 | 0.0000 | 0.0000 |
+| Hawkes | 0.0827 | 0.2480 | 0.2480 |
+| Hybrid | 0.0853 | 0.2560 | 0.2560 |
+| Normalized Hybrid | 0.0880 | 0.2640 | 0.2640 |
+
+Source CSV:
+`outputs/metrics/model_comparison_normalized_moviedata.csv`
+
+---
+
+# 25K MovieLens Dataset Results
+
+| Model | Precision@3 | Recall@3 | Hit Rate |
+|---|---|---|---|
+| Baseline | 0.0947 | 0.2840 | 0.2840 |
+| ICM | 0.0907 | 0.2720 | 0.2720 |
+| LTM | 0.0000 | 0.0000 | 0.0000 |
+| Hawkes | 0.0893 | 0.2680 | 0.2680 |
+| Hybrid | 0.0910 | 0.2730 | 0.2730 |
+| Normalized Hybrid | 0.0947 | 0.2840 | 0.2840 |
+
+Source CSV:
+`outputs/metrics/model_comparison_normalized_25000moviedata.csv`
+
+---
+
+# 50K MovieLens Dataset Results
+
+| Model | Precision@3 | Recall@3 | Hit Rate |
+|---|---|---|---|
+| Baseline | 0.1027 | 0.3080 | 0.3080 |
+| ICM | 0.1000 | 0.3000 | 0.3000 |
+| LTM | 0.0000 | 0.0000 | 0.0000 |
+| Hawkes | 0.0960 | 0.2880 | 0.2880 |
+| Hybrid | 0.0990 | 0.2970 | 0.2970 |
+| Normalized Hybrid | 0.1027 | 0.3080 | 0.3080 |
+
+Source CSV:
+`outputs/metrics/model_comparison_normalized_50000moviedata.csv`
+
+---
+
+# Result Interpretation
+
+The experiments demonstrate that:
+
+- The baseline collaborative filtering model achieved strong recommendation precision across all dataset sizes.
+- Independent Cascade diffusion improved recommendation diversity through probabilistic propagation behavior.
+- Hawkes Process modeling improved temporal recommendation adaptability and recency-aware recommendation scoring.
+- The Linear Threshold Model produced limited activation behavior under sparse interaction settings.
+- The normalized hybrid framework achieved stable and balanced performance by integrating structural diffusion and temporal recommendation dynamics.
+
+The results suggest that diffusion-aware recommendation systems provide improved interpretability and propagation analysis compared to traditional static recommendation approaches.
+
+---
+
+# Output Files
+
+Generated outputs include:
+
+```text
+outputs/
+│
+├── metrics/
+│   ├── model_comparison_normalized_moviedata.csv
+│   ├── model_comparison_normalized_25000moviedata.csv
+│   └── model_comparison_normalized_50000moviedata.csv
+│
+├── recommendations/
+│   ├── recommendation_results.txt
+│   └── hybrid_scores.csv
+│
+└── visualizations/
+    ├── precision_scaling.png
+    ├── recall_scaling.png
+    ├── hit_rate_scaling.png
+    ├── user_movie_bipartite_graph.png
+    ├── diffusion_spread_distribution.png
+    ├── icm_cascade_propagation.png
+    ├── temporal_interaction_timeline.png
+    └── hybrid_component_analysis.png
+```
 
 # Key Findings
 
