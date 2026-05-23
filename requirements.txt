@@ -1,0 +1,29 @@
+pandas
+numpy
+networkx
+scikit-learn
+matplotlib
+scipy
+seaborn
+jupyter
+notebook
+tqdm
+
+# Recommendation & Graph Analysis
+igraph
+
+# Temporal Modeling
+tick
+
+# Visualization
+plotly
+
+# Data Processing
+python-dateutil
+
+# Optional Deep Learning Extensions
+torch
+torch-geometric
+
+# Utilities
+joblib
